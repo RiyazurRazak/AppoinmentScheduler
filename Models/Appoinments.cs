@@ -21,6 +21,7 @@ namespace AppoinmentScheduler.Models
         public DateTime? EndRange { get; set;}
 
         [Required]
+        [Column(TypeName = "decimal(18,4)")]
         public decimal? Intreval { get; set; }
 
         [ForeignKey("RootUsers")]

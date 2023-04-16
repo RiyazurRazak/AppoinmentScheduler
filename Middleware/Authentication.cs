@@ -1,4 +1,5 @@
 ﻿using AppoinmentScheduler.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppoinmentScheduler.Middleware
@@ -6,35 +7,33 @@ namespace AppoinmentScheduler.Middleware
     public class Authentication
     {
         private readonly RequestDelegate _next;
-        
-        private readonly ApplicationDBContext _dbContext;
+       
 
-        public Authentication(RequestDelegate next, ApplicationDBContext context)
+        public Authentication(RequestDelegate next)
         {
             this._next = next;
-            this._dbContext = context;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ApplicationDBContext _dbContext)
         {
             try
             {
                 var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last();
-
+                Console.WriteLine(token);
                 if (token == null)
                 {
-                    Results.Unauthorized();
-                    return;
+                    Console.WriteLine("haii");
+                    context.Items["User"] = null;
+                    await _next(context);
                 }
-
                 var result = _dbContext.RootUsers.FromSqlRaw($"Select * from dbo.RootUsers Where Token='{token}'").ToList();
                 Console.WriteLine(result);
-                context.Items["User"] = result[0];
+                context.Items["User"] = result[0].Id;
                 await _next(context);
             }catch(Exception ex)
             {
-                Results.BadRequest(ex);
-                return;
+               Console.WriteLine(ex.ToString());
+                
             }
            
         }

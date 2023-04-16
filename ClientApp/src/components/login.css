@@ -1,0 +1,10 @@
+.login__root{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.login__link{
+    text-align: center;
+    margin-top: 12px;
+}
