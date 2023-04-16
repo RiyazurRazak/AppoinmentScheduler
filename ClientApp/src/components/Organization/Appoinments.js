@@ -44,7 +44,7 @@ function Appoinments() {
         .sort((a, b) => new Date(a.slotTime) - new Date(b.slotTime))
         .map((slot, index) => {
           return {
-            color: "green",
+            color: slot.isBooked ? "red" : "green",
             children: (
               <>
                 <p>Slot Number: {index + 1}</p>

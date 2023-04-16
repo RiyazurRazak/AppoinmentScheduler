@@ -79,7 +79,7 @@ function Appoinments() {
 
   return (
     <div>
-      <h3>List Of Appoinments Available</h3>
+      <h4>List Of Appoinments Available</h4>
       <br />
       <Collapse onChange={collapseHandller}>
         {appoinments.map((appoinment, index) => (

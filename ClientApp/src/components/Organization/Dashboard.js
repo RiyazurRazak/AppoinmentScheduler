@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Appoinments from "./Appoinments";
 import axios from "axios";
+import Users from "./Users";
 
 function Dashboard() {
   const [loggedInData, setLoggedInData] = useState(null);
@@ -12,7 +13,7 @@ function Dashboard() {
   const [dateRange, setDateRange] = useState([]);
   useEffect(() => {
     const data = localStorage.getItem("db");
-    console.log(data);
+
     setLoggedInData(JSON.parse(data));
   }, []);
 
@@ -64,6 +65,10 @@ function Dashboard() {
       <br />
       <br />
       <Appoinments />
+      <br />
+      <h3>Users</h3>
+      <br />
+      <Users />
       <Modal
         title="Add Appoinment"
         open={isEdit}

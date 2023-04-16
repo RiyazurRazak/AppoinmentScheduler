@@ -252,5 +252,37 @@ namespace AppoinmentScheduler.Controllers
                 });
             }
         }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> Users()
+        {
+            try
+            {
+                if (HttpContext.Items["User"] != null)
+                {
+                    string orgId = (string)HttpContext.Items["User"];
+                    var users = _dbContext.Users.Where(user => user.OrganizationId.Equals(orgId)).Select(user => new {user.Name, user.EmailAddress, user.ContactNumber}).ToList();
+                    Console.WriteLine(users.Count);
+                    return Ok(new
+                    {
+                        status = true,
+                        data = users
+                    });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(new
+                {
+                    status = false,
+                    message = err.ToString()
+                });
+            }
+        }
+
     }
 }
