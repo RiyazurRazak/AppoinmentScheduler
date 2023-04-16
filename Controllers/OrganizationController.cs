@@ -284,5 +284,39 @@ namespace AppoinmentScheduler.Controllers
             }
         }
 
+        [HttpDelete("appoinment")]
+        public async Task<IActionResult> DeleteAppoinment([FromQuery] string id)
+        {
+            try
+            {
+                if (HttpContext.Items["User"] != null)
+                {
+                    var slotsToRemove = _dbContext.Slots.Where(slot => slot.AppoinmentId.Equals(id)).ToList();
+                    var appoinmentToRemove = _dbContext.Appoinments.Where(appoinment => appoinment.Id.Equals(id)).ToList();
+                    _dbContext.Slots.RemoveRange(slotsToRemove);
+                    _dbContext.Appoinments.RemoveRange(appoinmentToRemove);
+                    await _dbContext.SaveChangesAsync();
+                    
+                    return Ok(new
+                    {
+                        status = true,
+                        message = "Appoinment Removed",
+                    });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(new
+                {
+                    status = false,
+                    message = err.ToString()
+                });
+            }
+        }
+
     }
 }

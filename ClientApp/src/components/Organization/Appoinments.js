@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Collapse, Timeline } from "antd";
+import { Button, Collapse, Timeline } from "antd";
 import axios from "axios";
 import moment from "moment/moment";
 function Appoinments() {
@@ -61,14 +61,46 @@ function Appoinments() {
     }
   };
 
+  const deleteAppoinmentHandller = async (id) => {
+    try {
+      const res = await axios.delete(
+        `https://localhost:7237/api/organization/appoinment?id=${id}`,
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("coffee")}`,
+          },
+        }
+      );
+      if (res.data.status) {
+        alert("Appoinment Removed Successfully With Its Slots");
+        getAppoinments(localStorage.getItem("coffee"));
+      } else {
+        throw Error("err");
+      }
+    } catch (err) {
+      alert("Something went wrong!");
+    }
+  };
+
   return (
     <div>
       <h3>List Of Appoinments</h3>
       <br />
       <Collapse onChange={collapseHandller}>
-        {appoinments.map((appoinment, index) => (
+        {appoinments.map((appoinment) => (
           <Collapse.Panel header={appoinment?.name} key={appoinment?.id}>
             <p>{appoinment?.description}</p>
+            <br />
+            <Button
+              type="primary"
+              danger
+              onClick={() => deleteAppoinmentHandller(appoinment?.id)}
+            >
+              Delete Appoinment
+            </Button>
+            <br />
+            <br />
+            <br />
             <Timeline items={slots} />
           </Collapse.Panel>
         ))}
