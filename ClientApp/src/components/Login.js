@@ -2,43 +2,76 @@ import { Card, Input, Button } from "antd";
 import React, { useState } from "react";
 import "./login.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function Login({ type }) {
   const [username, setUsername] = useState(undefined);
   const [password, setPassword] = useState(undefined);
   const navigate = useNavigate();
+  const params = useParams();
 
   const handleLogin = async () => {
-    try {
-      const payload = new FormData();
+    if (type === "Org") {
+      try {
+        const payload = new FormData();
 
-      payload.append("Username", username);
-      payload.append("Password", password);
+        payload.append("Username", username);
+        payload.append("Password", password);
 
-      const res = await axios.post(
-        "https://localhost:7237/api/organization/login",
-        payload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        const res = await axios.post(
+          "https://localhost:7237/api/organization/login",
+          payload,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        localStorage.setItem("coffee", res.data?.data?.token);
+        localStorage.setItem("db", JSON.stringify(res.data?.data));
+        navigate("/organization/dashboard");
+      } catch (err) {
+        console.log(err);
+        alert("Something went wrong try again");
+      }
+    } else {
+      try {
+        if (!params.iam) {
+          alert("Unauthorized");
+          navigate("/");
         }
-      );
-      localStorage.setItem("coffee", res.data?.data?.token);
-      localStorage.setItem("db", JSON.stringify(res.data?.data));
-      navigate("/organization/dashboard");
-    } catch (err) {
-      console.log(err);
-      alert("Something went wrong try again");
+        const payload = new FormData();
+
+        payload.append("EmailAddress", username);
+        payload.append("Password", password);
+        const res = await axios.post(
+          "https://localhost:7237/api/user/login",
+          payload,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        localStorage.setItem("tea", res.data?.data?.token);
+        localStorage.setItem("db", JSON.stringify(res.data?.data));
+        navigate(`/${params.iam}/dashboard`);
+      } catch (err) {
+        console.log(err);
+        alert("Something went wrong try again");
+      }
     }
   };
   return (
     <div className="login__root">
-      <Card title="Organization Login" bordered={false} style={{ width: 350 }}>
+      <Card
+        title={type === "Org" ? "Organization Login" : "Login To Book Slots"}
+        bordered={false}
+        style={{ width: 350 }}
+      >
         <Input
           type="text"
-          placeholder="username"
+          placeholder={type === "Org" ? "username" : "email address"}
           style={{ marginBottom: "18px" }}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -57,7 +90,15 @@ function Login({ type }) {
         </Button>
         <br />
         <div className="login__link">
-          <Link to="/organization/register">Can't Have Account? SignUp</Link>
+          <Link
+            to={
+              type === "Org"
+                ? "/organization/register"
+                : `/${params.iam}/register`
+            }
+          >
+            Can't Have Account? SignUp
+          </Link>
         </div>
       </Card>
     </div>

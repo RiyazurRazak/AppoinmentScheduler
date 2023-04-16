@@ -12,3 +12,9 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+.events{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
