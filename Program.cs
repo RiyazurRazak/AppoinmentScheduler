@@ -1,4 +1,5 @@
 using AppoinmentScheduler.Data;
+using AppoinmentScheduler.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +10,6 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DB")));
-
-
 
 
 var app = builder.Build();
@@ -25,6 +24,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseMiddleware<Authentication>();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",

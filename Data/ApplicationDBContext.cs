@@ -7,6 +7,13 @@ namespace AppoinmentScheduler.Data
     {
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) { }
 
+        public DbSet<RootUsers> RootUsers { get; set; }
+
+        public DbSet<Users> Users { get; set; }
+
+        public DbSet<Appoinments> Appoinments { get; set; }
+
+        public DbSet<Slots> Slots { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Slots>()
