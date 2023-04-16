@@ -7,7 +7,7 @@ namespace AppoinmentScheduler.Models
     {
         [Key]
         [Required]
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
 
         [Required]
         public string? Name { get; set; }
@@ -24,8 +24,8 @@ namespace AppoinmentScheduler.Models
         public decimal? Intreval { get; set; }
 
         [ForeignKey("RootUsers")]
-        public Guid OrganizationId { get; set; }
-        public virtual RootUsers? Organization { get; set; }
+        public string? OrganizationId { get; set; }
+        public virtual RootUsers? CreatedOrganization { get; set; }
 
     }
 }

@@ -10,10 +10,10 @@ namespace AppoinmentScheduler.Models
     {
         [Key]
         [Required]
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
 
         [ForeignKey("Appoinments")]
-        public Guid AppoinmentId { get; set; }
+        public string? AppoinmentId { get; set; }
         public virtual Appoinments Appoinment { get; set; }
 
         [DefaultValue(false)]
@@ -22,8 +22,8 @@ namespace AppoinmentScheduler.Models
         public DateTime SlotTime { get; set; }
 
         [ForeignKey("Users")]
-        public Guid BookedBy { get; set; }
-        public virtual Users User { get; set; }
+        public string? BookedBy { get; set; }
+        public virtual Users SlotUserBy { get; set; }
 
         public int SlotId { get; set; }
 

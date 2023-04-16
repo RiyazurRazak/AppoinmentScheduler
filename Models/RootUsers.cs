@@ -6,7 +6,7 @@ namespace AppoinmentScheduler.Models
     {
         [Key]
         [Required]
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
 
         [Required]
         public string? OrganizationName { get; set; }
@@ -28,7 +28,7 @@ namespace AppoinmentScheduler.Models
 
         public string IamSlug { get; set; }
 
-        public Guid Token { get; set; }
+        public string Token { get; set; }
 
     }
 }

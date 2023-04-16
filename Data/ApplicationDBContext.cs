@@ -19,6 +19,7 @@ namespace AppoinmentScheduler.Data
             modelBuilder.Entity<Slots>()
                 .Property(p => p.SlotId)
                 .ValueGeneratedOnAdd();
+
         }
     }
 }

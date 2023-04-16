@@ -27,7 +27,7 @@ namespace AppoinmentScheduler.Middleware
                     return;
                 }
 
-                var result = _dbContext.RootUsers.FromSqlRaw($"Select * from dbo.RootUsers Where Token={token}").ToList();
+                var result = _dbContext.RootUsers.FromSqlRaw($"Select * from dbo.RootUsers Where Token='{token}'").ToList();
                 Console.WriteLine(result);
                 context.Items["User"] = result[0];
                 await _next(context);
