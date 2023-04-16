@@ -270,6 +270,41 @@ namespace AppoinmentScheduler.Controllers
             }
         }
 
+        [HttpDelete("slot")]
+        public async Task<IActionResult> DeleteSlots([FromQuery] string id)
+        {
+
+            try
+            {
+                if (id != null)
+                {
+                     _dbContext.Slots.Where(slot => slot.Id.Equals(id)).ToList().ForEach(slot =>
+                    {
+                        slot.IsBooked = false;
+                        slot.BookedBy = "";
+                    });
+                    await _dbContext.SaveChangesAsync();
+                    return Ok(new
+                    {
+                        status = true,
+                        message = "Slot Removed"
+                    });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception err)
+            {
+                return BadRequest(new
+                {
+                    status = false,
+                    message = err.ToString()
+                });
+            }
+        }
+
 
     }
 }

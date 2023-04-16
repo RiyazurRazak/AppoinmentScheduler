@@ -8,7 +8,6 @@ function Appoinments() {
   const [slots, setSlots] = useState([]);
   const params = useParams();
 
-  console.log(slots);
   const getAppoinments = async () => {
     try {
       const res = await axios.get(
@@ -24,6 +23,20 @@ function Appoinments() {
   useEffect(() => {
     getAppoinments();
   }, []);
+
+  const cancelSlotHandller = async (id) => {
+    try {
+      const res = await axios.delete(
+        `https://localhost:7237/api/user/slot?id=${id}`
+      );
+      if (res.data.status) {
+        alert("Slot canceled For You");
+        window.location.reload();
+      }
+    } catch (err) {
+      alert("Something Went Wrong");
+    }
+  };
 
   const bookSlotHandller = async (id) => {
     try {
@@ -65,6 +78,15 @@ function Appoinments() {
                 >
                   {slot.isBooked ? "Booked" : "Book Slot"}
                 </Button>
+                {slot.bookedBy === localStorage.getItem("tea") && (
+                  <Button
+                    danger
+                    style={{ marginLeft: "8px" }}
+                    onClick={() => cancelSlotHandller(slot.id)}
+                  >
+                    Cancel Appoinment
+                  </Button>
+                )}
               </>
             ),
           };
@@ -82,7 +104,7 @@ function Appoinments() {
       <h4>List Of Appoinments Available</h4>
       <br />
       <Collapse onChange={collapseHandller}>
-        {appoinments.map((appoinment, index) => (
+        {appoinments.map((appoinment) => (
           <Collapse.Panel header={appoinment?.name} key={appoinment?.id}>
             <p>{appoinment?.description}</p>
             <Timeline items={slots} />

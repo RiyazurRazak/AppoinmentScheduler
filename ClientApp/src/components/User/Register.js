@@ -45,7 +45,7 @@ function Register() {
   };
   return (
     <div className="login__root">
-      <Card title="Organization Login" bordered={false} style={{ width: 350 }}>
+      <Card title="Login" bordered={false} style={{ width: 350 }}>
         <Input
           type="text"
           placeholder="Name"
@@ -55,7 +55,7 @@ function Register() {
         />
         <Input
           type="email"
-          placeholder="Organization email"
+          placeholder="email"
           style={{ marginBottom: "18px" }}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
