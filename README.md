@@ -19,12 +19,12 @@
 
 ### Admin User
 
-![Admin page](../Snapshots/admin1.png)
-![Admin page](../Snapshots/admin2.png)
-![Admin page](../Snapshots/admin3.png)
-![Admin page](../Snapshots/admin4.png)
+![Admin page](./Snapshots/admin1.png)
+![Admin page](./Snapshots/admin2.png)
+![Admin page](./Snapshots/admin3.png)
+![Admin page](./Snapshots/admin4.png)
 
 ## Users
-![User page](../Snapshots/user1.png)
-![User page](../Snapshots/user2.png)
-![User page](../Snapshots/user3.png)
+![User page](./Snapshots/user1.png)
+![User page](./Snapshots/user2.png)
+![User page](./Snapshots/user3.png)
